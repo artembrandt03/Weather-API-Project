@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Weather App - REST API</title>
+
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/theme.css" />
+    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/components.css" />
+  </head>
+
+  <body>
+    <div class="app">
+      <header class="app__header">
+        <div class="app__header-inner">
+          <h1 class="app__title">Your Weather APP on your Palm - REST API</h1>
+          <div class="app__badge">This app is for academic use only</div>
+        </div>
+      </header>
+
+      <main class="app__main" role="main">
+        <aside class="panel panel--left" aria-label="Controls">
+          <section class="card">
+            <h2 class="card__title">City selection</h2>
+
+            <label class="field">
+              <span class="field__label">City name</span>
+              <input
+                id="cityInput"
+                class="input"
+                type="text"
+                name="city"
+                placeholder="e.g., Montreal"
+                required
+                minlength="2"
+                maxlength="40"
+                autocomplete="off"
+              />
+            </label>
+
+            <label class="field">
+              <span class="field__label">Suggestions</span>
+              <select id="cityDropdown" class="select" disabled>
+                <option value="">Start typing...</option>
+              </select>
+            </label>
+
+            <p id="statusMsg" class="status" aria-live="polite"></p>
+          </section>
+
+          <section class="card">
+            <h2 class="card__title">Current Location</h2>
+
+            <button id="btnCurrentLocation" class="btn btn--primary" type="button">
+              Get Current Location
+            </button>
+
+            <div class="grid2">
+              <label class="field">
+                <span class="field__label">Latitude</span>
+                <input id="latBox" class="input input--mono" type="text" placeholder="-" disabled />
+              </label>
+
+              <label class="field">
+                <span class="field__label">Longitude</span>
+                <input id="lonBox" class="input input--mono" type="text" placeholder="-" disabled />
+              </label>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2 class="card__title">From local storage</h2>
+
+            <label class="check">
+              <input id="chkUseCache" type="checkbox" />
+              <span>Prefer cached weather (if available)</span>
+            </label>
+
+            <button id="btnLocalStorage" class="btn" type="button">
+              Get local-storage
+            </button>
+          </section>
+        </aside>
+
+        <section class="panel panel--center" aria-label="Weather Display">
+          <section class="card card--hero">
+            <div class="hero__header">
+              <h2 id="mainTitle" class="hero__title">Main weather info <span class="muted">[--/--/----]</span></h2>
+              <div class="hero__meta">
+                <span id="mainDesc" class="pill">—</span>
+                <span id="mainIcon" class="icon" aria-hidden="true">⛅</span>
+              </div>
+            </div>
+
+            <nav class="tabs" aria-label="Weather tabs">
+              <button class="tab is-active" type="button" data-tab="temp">Temp</button>
+              <button class="tab" type="button" data-tab="pressure">Pressure</button>
+              <button class="tab" type="button" data-tab="wind">Wind</button>
+            </nav>
+
+            <div class="tabpanes">
+              <section id="tab-temp" class="pane is-active">
+                <div class="kv">
+                  <div class="kv__row"><span class="kv__k">temp</span><span class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">feels_like</span><span class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">temp_max</span><span class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">temp_min</span><span class="kv__v">—</span></div>
+                </div>
+              </section>
+
+              <section id="tab-pressure" class="pane">
+                <div class="kv">
+                  <div class="kv__row"><span class="kv__k">pressure</span><span class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">humidity</span><span class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">sea_level</span><span class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">grnd_level</span><span class="kv__v">—</span></div>
+                </div>
+              </section>
+
+              <section id="tab-wind" class="pane">
+                <div class="kv">
+                  <div class="kv__row"><span class="kv__k">speed</span><span class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">gust</span><span class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">deg</span><span class="kv__v">—</span></div>
+                </div>
+              </section>
+            </div>
+          </section>
+        </section>
+
+        <aside class="panel panel--right" aria-label="City Data">
+          <section class="card">
+            <h2 id="cityDataTitle" class="card__title">City data <span class="muted">—</span></h2>
+
+            <div class="kv">
+              <div class="kv__row"><span class="kv__k">Population</span><span id="popVal" class="kv__v">—</span></div>
+              <div class="kv__row"><span class="kv__k">Sunrise</span><span id="sunriseVal" class="kv__v">—</span></div>
+              <div class="kv__row"><span class="kv__k">Sunset</span><span id="sunsetVal" class="kv__v">—</span></div>
+            </div>
+          </section>
+        </aside>
+      </main>
+
+      <footer class="app__footer">
+        <div class="app__footer-inner">
+          <div class="footer__title">Assignment 6 - Nasr (c) Fall 2024</div>
+          <div class="app__badge">This app is for academic use only</div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module" src="./js/main.mjs"></script>
+  </body>
+</html>
