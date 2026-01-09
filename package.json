@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "lint": "eslint .",
-    "dev": "npx serve . --open /app.html"
+    "dev": "npx serve ."
   },
   "devDependencies": {
     "eslint": "^9.0.0"
