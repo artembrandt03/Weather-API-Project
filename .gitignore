@@ -3,3 +3,8 @@ node_modules/
 
 # editor / IDE
 .vscode/
+
+# secrets
+js/settings.mjs
+.env
+.env.*
