@@ -1,3 +1,5 @@
+import { formatDateTime } from "../utils.mjs";
+
 export const renderStatus = (dom, message = "") => {
   dom.statusMsg.textContent = message;
 };
@@ -21,4 +23,28 @@ export const renderCitySuggestions = (dom, suggestions) => {
   });
 
   dom.cityDropdown.disabled = suggestions.length === 0;
+};
+
+export const renderWeatherMain = (dom, forecast) => {
+  if (!forecast?.list?.length) return;
+
+  const now = forecast.list[0];
+  dom.mainTemp.textContent = `${Math.round(now.main.temp)} °C`;
+  dom.mainDesc.textContent = now.weather[0]?.description ?? "";
+};
+
+export const renderTabs = (dom, forecast) => {
+  const now = forecast.list[0];
+  dom.tempValue.textContent = Math.round(now.main.temp);
+  dom.feelsLikeValue.textContent = Math.round(now.main.feels_like);
+  dom.tempMaxValue.textContent = Math.round(now.main.temp_max);
+  dom.tempMinValue.textContent = Math.round(now.main.temp_min);
+};
+
+export const renderCityMeta = (dom, forecast) => {
+  const city = forecast.city;
+  if (!city) return;
+
+  dom.sunriseValue.textContent = formatDateTime(city.sunrise);
+  dom.sunsetValue.textContent = formatDateTime(city.sunset);
 };
