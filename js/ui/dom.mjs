@@ -18,6 +18,17 @@ export const getDom = () => {
     tempMaxValue: document.getElementById("tempMaxValue"),
     tempMinValue: document.getElementById("tempMinValue"),
 
+    // pressure tab
+    pressureValue: document.getElementById("pressureValue"),
+    humidityValue: document.getElementById("humidityValue"),
+    seaLevelValue: document.getElementById("seaLevelValue"),
+    groundLevelValue: document.getElementById("groundLevelValue"),
+
+    // wind tab
+    windSpeedValue: document.getElementById("windSpeedValue"),
+    windGustValue: document.getElementById("windGustValue"),
+    windDegValue: document.getElementById("windDegValue"),
+
     // city meta
     popValue: document.getElementById("popVal"),
     sunriseValue: document.getElementById("sunriseVal"),

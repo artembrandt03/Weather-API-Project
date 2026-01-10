@@ -34,12 +34,27 @@ export const renderWeatherMain = (dom, forecast) => {
 };
 
 export const renderTabs = (dom, forecast) => {
+  if (!forecast?.list?.length) return;
+
   const now = forecast.list[0];
-  dom.tempValue.textContent = Math.round(now.main.temp);
-  dom.feelsLikeValue.textContent = Math.round(now.main.feels_like);
-  dom.tempMaxValue.textContent = Math.round(now.main.temp_max);
-  dom.tempMinValue.textContent = Math.round(now.main.temp_min);
-};
+
+  // --- Temp ---
+  if (dom.tempValue) dom.tempValue.textContent = Math.round(now.main.temp);
+  if (dom.feelsLikeValue) dom.feelsLikeValue.textContent = Math.round(now.main.feels_like);
+  if (dom.tempMaxValue) dom.tempMaxValue.textContent = Math.round(now.main.temp_max);
+  if (dom.tempMinValue) dom.tempMinValue.textContent = Math.round(now.main.temp_min);
+
+  // --- Pressure ---
+  if (dom.pressureValue) dom.pressureValue.textContent = now.main.pressure ?? "—";
+  if (dom.humidityValue) dom.humidityValue.textContent = now.main.humidity ?? "—";
+  if (dom.seaLevelValue) dom.seaLevelValue.textContent = now.main.sea_level ?? "—";
+  if (dom.groundLevelValue) dom.groundLevelValue.textContent = now.main.grnd_level ?? "—";
+
+  // --- Wind ---
+  if (dom.windSpeedValue) dom.windSpeedValue.textContent = now.wind?.speed ?? "—";
+  if (dom.windGustValue) dom.windGustValue.textContent = now.wind?.gust ?? "—";
+  if (dom.windDegValue) dom.windDegValue.textContent = now.wind?.deg ?? "—";
+}
 
 export const renderCityMeta = (dom, forecast) => {
   const city = forecast.city;
