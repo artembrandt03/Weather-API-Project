@@ -2,6 +2,13 @@ import { fetchCitySuggestions } from "./services/openweather.mjs";
 import { getDom } from "./ui/dom.mjs";
 import { renderCitySuggestions, renderStatus } from "./ui/render.mjs";
 import { initTabs } from "./tabs.js";
+import { fetchForecastByCoords } from "./services/openweather.mjs";
+import {
+  renderWeatherMain,
+  renderTabs,
+  renderCityMeta,
+  renderStatus
+} from "./ui/render.mjs";
 
 const state = {
   suggestions: [],
@@ -61,7 +68,7 @@ const onCityInput = (dom) =>
     }
   }, 300);
 
-const onCitySelect = (dom) => {
+const onCitySelect = async (dom) => {
   const idx = Number(dom.cityDropdown.value);
   if (!Number.isInteger(idx) || idx < 0 || idx >= state.suggestions.length) return;
 
@@ -76,7 +83,25 @@ const onCitySelect = (dom) => {
   dom.cityDropdown.value = "";
   dom.cityDropdown.disabled = true;
 
-  renderStatus(dom, `Selected: ${chosen.name} (${chosen.country}). Next: fetch forecast...`);
+  try {
+    renderStatus(dom, "Fetching forecast...");
+
+    const forecast = await fetchForecastByCoords(
+      state.coords.lat,
+      state.coords.lon
+    );
+
+    state.lastForecast = forecast;
+
+    renderWeatherMain(dom, forecast);
+    renderTabs(dom, forecast);
+    renderCityMeta(dom, forecast);
+
+    renderStatus(dom, "Forecast loaded.");
+  } catch (err) {
+    console.error(err);
+    renderStatus(dom, `Forecast error: ${err.message}`);
+  }
 };
 
 const init = () => {
