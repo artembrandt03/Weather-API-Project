@@ -88,10 +88,10 @@
           <section class="card card--hero">
             <div class="hero__header">
               <h2 id="mainTitle" class="hero__title">Main weather info <span class="muted">[--/--/----]</span></h2>
-              <div class="hero__meta">
-                <span id="mainDesc" class="pill">—</span>
-                <span id="mainIcon" class="icon" aria-hidden="true">⛅</span>
-              </div>
+            <div class="hero__meta">
+              <span id="mainTemp" class="pill">—</span>
+              <span id="mainDesc" class="pill">—</span>
+              <span id="mainIcon" class="icon" aria-hidden="true">⛅</span>
             </div>
 
             <nav class="tabs" aria-label="Weather tabs">
@@ -103,10 +103,10 @@
             <div class="tabpanes">
               <section id="tab-temp" class="pane is-active">
                 <div class="kv">
-                  <div class="kv__row"><span class="kv__k">temp</span><span class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">feels_like</span><span class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">temp_max</span><span class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">temp_min</span><span class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">temp</span><span id="tempValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">feels_like</span><span id="feelsLikeValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">temp_max</span><span id="tempMaxValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">temp_min</span><span id="tempMinValue" class="kv__v">—</span></div>
                 </div>
               </section>
 

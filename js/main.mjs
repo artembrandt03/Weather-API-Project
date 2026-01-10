@@ -1,6 +1,6 @@
 import { fetchCitySuggestions } from "./services/openweather.mjs";
 import { getDom } from "./ui/dom.mjs";
-import { renderCitySuggestions, renderStatus } from "./ui/render.mjs";
+import { renderCitySuggestions } from "./ui/render.mjs";
 import { initTabs } from "./tabs.js";
 import { fetchForecastByCoords } from "./services/openweather.mjs";
 import {
@@ -106,6 +106,17 @@ const onCitySelect = async (dom) => {
 
 const init = () => {
   const dom = getDom();
+  //temp
+  console.log({
+  mainTemp: dom.mainTemp,
+  mainDesc: dom.mainDesc,
+  tempValue: dom.tempValue,
+  feelsLikeValue: dom.feelsLikeValue,
+  tempMaxValue: dom.tempMaxValue,
+  tempMinValue: dom.tempMinValue,
+  sunriseValue: dom.sunriseValue,
+  sunsetValue: dom.sunsetValue
+  });
 
   initTabs();
 

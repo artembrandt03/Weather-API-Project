@@ -45,6 +45,7 @@ export const renderCityMeta = (dom, forecast) => {
   const city = forecast.city;
   if (!city) return;
 
-  dom.sunriseValue.textContent = formatDateTime(city.sunrise);
-  dom.sunsetValue.textContent = formatDateTime(city.sunset);
+  if (dom.popValue) dom.popValue.textContent = city.population ? String(city.population) : "—";
+  if (dom.sunriseValue) dom.sunriseValue.textContent = formatDateTime(city.sunrise);
+  if (dom.sunsetValue) dom.sunsetValue.textContent = formatDateTime(city.sunset);
 };
