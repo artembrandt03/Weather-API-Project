@@ -1,4 +1,5 @@
 import { OPENWEATHER, LIMITS } from "../settings.mjs";
+import { safeFetchJson } from "../utils.mjs";
 
 export const fetchCitySuggestions = async (query) => {
   const q = query.trim();
@@ -24,4 +25,16 @@ export const fetchCitySuggestions = async (query) => {
         lon: c.lon
       }))
     : [];
+};
+
+//raw api response
+export const fetchForecastByCoords = async (lat, lon) => {
+  const url =
+    `${OPENWEATHER.FORECAST_URL}` +
+    `?lat=${encodeURIComponent(lat)}` +
+    `&lon=${encodeURIComponent(lon)}` +
+    `&units=metric` +
+    `&appid=${encodeURIComponent(OPENWEATHER.API_KEY)}`;
+
+  return safeFetchJson(url);
 };
