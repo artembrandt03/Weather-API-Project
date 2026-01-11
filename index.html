@@ -14,11 +14,24 @@
   <body>
     <div class="app">
       <header class="app__header">
-        <div class="app__header-inner">
-          <h1 class="app__title">Your Weather APP on your Palm - REST API</h1>
-          <div class="app__badge">This app is for academic use only</div>
-        </div>
-      </header>
+      <video
+        class="header__bg-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+      >
+        <source src="./assets/video/weather-background.mp4" type="video/mp4" />
+      </video>
+
+      <div class="header__overlay" aria-hidden="true"></div>
+
+      <div class="app__header-inner header__content">
+        <h1 class="app__title">Your Weather APP on your Palm - REST API</h1>
+        <div class="app__badge">This app is for academic use only</div>
+      </div>
+    </header>
 
       <main class="app__main" role="main">
         <aside class="panel panel--left" aria-label="Controls">
