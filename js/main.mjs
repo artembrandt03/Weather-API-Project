@@ -10,6 +10,7 @@ import {
   renderStatus
 } from "./ui/render.mjs";
 import { getCurrentCoords } from "./services/geolocation.mjs";
+import { saveWeather, loadWeather, isFresh } from "./services/storage.mjs";
 
 const state = {
   suggestions: [],
