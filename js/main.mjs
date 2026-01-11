@@ -9,6 +9,8 @@ import {
   renderCityMeta,
   renderStatus
 } from "./ui/render.mjs";
+import { getCurrentCoords } from "./services/geolocation.mjs";
+import { saveWeather, loadWeather, isFresh } from "./services/storage.mjs";
 
 const state = {
   suggestions: [],
@@ -86,10 +88,7 @@ const onCitySelect = async (dom) => {
   try {
     renderStatus(dom, "Fetching forecast...");
 
-    const forecast = await fetchForecastByCoords(
-      state.coords.lat,
-      state.coords.lon
-    );
+    const forecast = await getForecast(dom, state.coords.lat, state.coords.lon);
 
     state.lastForecast = forecast;
 
@@ -102,6 +101,26 @@ const onCitySelect = async (dom) => {
     console.error(err);
     renderStatus(dom, `Forecast error: ${err.message}`);
   }
+};
+
+const getForecast = async (dom, lat, lon) => {
+  const cacheKey = `forecast:${lat.toFixed(3)},${lon.toFixed(3)}`;
+  const useCache = !!dom.chkUseCache?.checked;
+
+  if (useCache) {
+    const cached = loadWeather(cacheKey);
+    if (cached?.payload && isFresh(cached.savedAt, 20)) {
+      renderStatus(dom, "Loaded forecast from cache.");
+      return cached.payload;
+    }
+  }
+
+  const fresh = await fetchForecastByCoords(lat, lon);
+  saveWeather(cacheKey, fresh);
+
+  saveWeather("lastForecast", fresh);
+
+  return fresh;
 };
 
 const init = () => {
@@ -126,12 +145,47 @@ const init = () => {
   dom.cityInput.addEventListener("input", onCityInput(dom));
   dom.cityDropdown.addEventListener("change", () => onCitySelect(dom));
 
-  dom.btnCurrentLocation?.addEventListener("click", () => {
-    renderStatus(dom, "Current location: coming next phase.");
+  dom.btnCurrentLocation?.addEventListener("click", async () => {
+    try {
+      renderStatus(dom, "Requesting location...");
+      const { lat, lon } = await getCurrentCoords();
+
+      state.selectedCity = { name: "Current Location", country: "" };
+      state.coords = { lat, lon };
+
+      dom.latBox.value = String(lat);
+      dom.lonBox.value = String(lon);
+
+      renderStatus(dom, "Fetching forecast for current location...");
+
+      const forecast = await getForecast(dom, lat, lon);
+      state.lastForecast = forecast;
+
+      renderWeatherMain(dom, forecast);
+      renderTabs(dom, forecast);
+      renderCityMeta(dom, forecast);
+
+      renderStatus(dom, "Forecast loaded (current location).");
+    } catch (err) {
+      console.error(err);
+      renderStatus(dom, `Location error: ${err.message}`);
+    }
   });
 
   dom.btnLocalStorage?.addEventListener("click", () => {
-    renderStatus(dom, "Local storage: coming next phase.");
+    const cached = loadWeather("lastForecast");
+    if (!cached?.payload) {
+      renderStatus(dom, "No cached forecast found yet.");
+      return;
+    }
+
+    state.lastForecast = cached.payload;
+
+    renderWeatherMain(dom, cached.payload);
+    renderTabs(dom, cached.payload);
+    renderCityMeta(dom, cached.payload);
+
+    renderStatus(dom, "Loaded last forecast from local storage.");
   });
 };
 
