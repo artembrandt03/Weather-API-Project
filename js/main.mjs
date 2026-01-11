@@ -173,7 +173,19 @@ const init = () => {
   });
 
   dom.btnLocalStorage?.addEventListener("click", () => {
-    renderStatus(dom, "Local storage: coming next phase.");
+    const cached = loadWeather("lastForecast");
+    if (!cached?.payload) {
+      renderStatus(dom, "No cached forecast found yet.");
+      return;
+    }
+
+    state.lastForecast = cached.payload;
+
+    renderWeatherMain(dom, cached.payload);
+    renderTabs(dom, cached.payload);
+    renderCityMeta(dom, cached.payload);
+
+    renderStatus(dom, "Loaded last forecast from local storage.");
   });
 };
 
