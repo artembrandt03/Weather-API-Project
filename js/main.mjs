@@ -9,6 +9,7 @@ import {
   renderCityMeta,
   renderStatus
 } from "./ui/render.mjs";
+import { getCurrentCoords } from "./services/geolocation.mjs";
 
 const state = {
   suggestions: [],
@@ -126,8 +127,31 @@ const init = () => {
   dom.cityInput.addEventListener("input", onCityInput(dom));
   dom.cityDropdown.addEventListener("change", () => onCitySelect(dom));
 
-  dom.btnCurrentLocation?.addEventListener("click", () => {
-    renderStatus(dom, "Current location: coming next phase.");
+  dom.btnCurrentLocation?.addEventListener("click", async () => {
+    try {
+      renderStatus(dom, "Requesting location...");
+      const { lat, lon } = await getCurrentCoords();
+
+      state.selectedCity = { name: "Current Location", country: "" };
+      state.coords = { lat, lon };
+
+      dom.latBox.value = String(lat);
+      dom.lonBox.value = String(lon);
+
+      renderStatus(dom, "Fetching forecast for current location...");
+
+      const forecast = await fetchForecastByCoords(lat, lon);
+      state.lastForecast = forecast;
+
+      renderWeatherMain(dom, forecast);
+      renderTabs(dom, forecast);
+      renderCityMeta(dom, forecast);
+
+      renderStatus(dom, "Forecast loaded (current location).");
+    } catch (err) {
+      console.error(err);
+      renderStatus(dom, `Location error: ${err.message}`);
+    }
   });
 
   dom.btnLocalStorage?.addEventListener("click", () => {
