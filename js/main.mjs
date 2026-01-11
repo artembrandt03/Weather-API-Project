@@ -88,10 +88,7 @@ const onCitySelect = async (dom) => {
   try {
     renderStatus(dom, "Fetching forecast...");
 
-    const forecast = await fetchForecastByCoords(
-      state.coords.lat,
-      state.coords.lon
-    );
+    const forecast = await getForecast(dom, state.coords.lat, state.coords.lon);
 
     state.lastForecast = forecast;
 
@@ -104,6 +101,26 @@ const onCitySelect = async (dom) => {
     console.error(err);
     renderStatus(dom, `Forecast error: ${err.message}`);
   }
+};
+
+const getForecast = async (dom, lat, lon) => {
+  const cacheKey = `forecast:${lat.toFixed(3)},${lon.toFixed(3)}`;
+  const useCache = !!dom.chkUseCache?.checked;
+
+  if (useCache) {
+    const cached = loadWeather(cacheKey);
+    if (cached?.payload && isFresh(cached.savedAt, 20)) {
+      renderStatus(dom, "Loaded forecast from cache.");
+      return cached.payload;
+    }
+  }
+
+  const fresh = await fetchForecastByCoords(lat, lon);
+  saveWeather(cacheKey, fresh);
+
+  saveWeather("lastForecast", fresh);
+
+  return fresh;
 };
 
 const init = () => {
@@ -141,7 +158,7 @@ const init = () => {
 
       renderStatus(dom, "Fetching forecast for current location...");
 
-      const forecast = await fetchForecastByCoords(lat, lon);
+      const forecast = await getForecast(dom, lat, lon);
       state.lastForecast = forecast;
 
       renderWeatherMain(dom, forecast);
