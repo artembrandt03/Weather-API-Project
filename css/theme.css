@@ -81,4 +81,65 @@ Header with background video
     background: linear-gradient(to bottom, #0b3d91, #0b1f3a);
   }
 }
+
+.app__header {
+  min-height: 180px;  /* gives the header space so text is visible */
+}
+
+.header__content {
+  position: relative;
+  z-index: 2;
+  padding: 28px 0;    /* vertical breathing room */
+}
+
+/*--------------------------------------------------------------*/
+
+/* Header Text
+--------------------------------------------------------------*/
+.headerText {
+  text-align: center;
+  color: #fff; /* force readable over video */
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+}
+
+.headerSubtitle {
+  margin: 8px 0 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  opacity: 0.95;
+}
+
+.headerByline {
+  margin: 8px 0 0;
+  font-size: 1rem;
+  font-weight: 650;
+  opacity: 0.95;
+}
+
+.headerName {
+  font-weight: 900;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+  cursor: default;
+}
+
+.headerName:hover {
+  background: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 0 14px rgba(120, 180, 255, 0.65);
+  transform: translateY(-1px);
+}
 /*--------------------------------------------------------------*/
