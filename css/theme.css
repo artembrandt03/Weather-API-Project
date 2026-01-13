@@ -419,3 +419,63 @@ body.is-opened .app__main {
     transition: none !important;
   }
 }
+
+/* Bigger middle pane + more spacing */
+.startup__content {
+  width: min(560px, calc(100vw - 40px));
+  padding: 34px 28px;
+  border-radius: 22px;
+}
+
+/* Slightly larger text + more breathing room */
+.startup__title {
+  font-size: 2.6rem;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.startup__subtitle {
+  margin-top: 14px;
+  font-size: 1.2rem;
+  line-height: 1.35;
+}
+
+.startup__byline {
+  margin-top: 12px;
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+/* Push button area lower in the pane */
+.startup__actions {
+  position: relative;
+  margin-top: 26px;
+  padding-top: 34px;         /* creates space above button */
+  display: flex;
+  justify-content: center;
+}
+
+/* Sun gif behind the button, top-left */
+.startup__sun {
+  position: absolute;
+  left: 6px;
+  top: -6px;
+
+  width: 110px;
+  height: 110px;
+
+  opacity: 0.9;          /* no dimming */
+  filter: none;        /* no blur */
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure button sits above the gif */
+.btn--open {
+  position: relative;
+  z-index: 1;
+  min-width: 240px;
+  padding: 12px 18px;
+  font-size: 1.05rem;
+}
