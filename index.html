@@ -14,20 +14,34 @@
   <body>
     <div class="app">
       <header class="app__header">
-        <video class="header__bg-video" autoplay muted loop playsinline preload="auto">
-          <source src="./assets/video/weather-background.mp4" type="video/mp4" />
-        </video>
+        <!-- STARTUP / SPLASH OVERLAY (full screen) -->
+        <section id="startupScreen" class="startup" aria-label="Startup screen">
+          <video id="startupVideo" class="startup__video" autoplay muted loop playsinline preload="auto">
+            <source src="./assets/video/weather-background.mp4" type="video/mp4" />
+          </video>
 
-        <div class="header__overlay" aria-hidden="true"></div>
+          <div class="startup__overlay" aria-hidden="true"></div>
 
-        <div class="header__content">
-          <div class="app__header-inner">
-            <div class="headerText">
-              <h1 class="headerTitle">Weather Forecast</h1>
-              <h2 class="headerSubtitle">Powered by OpenWeather API</h2>
-              <h3 class="headerByline">
-                Developed by <span class="headerName">Artem Brandt</span>
-              </h3>
+          <div class="startup__content">
+            <h1 class="startup__title">Weather Forecast</h1>
+            <p class="startup__subtitle">Powered by OpenWeather API</p>
+            <p class="startup__byline">Developed by <span class="headerName">Artem Brandt</span></p>
+
+            <button id="btnOpenApp" class="btn btn--open" type="button">
+              Open
+            </button>
+          </div>
+        </section>
+
+        <!-- COMPACT HEADER (appears after Open) -->
+        <div class="headerBar">
+          <div class="app__header-inner headerBar__inner">
+            <div class="headerBar__row">
+              <span class="headerBar__title">Weather Forecast</span>
+              <span class="headerBar__sep">•</span>
+              <span class="headerBar__meta">Powered by OpenWeather API</span>
+              <span class="headerBar__sep">•</span>
+              <span class="headerBar__meta">Artem Brandt</span>
             </div>
           </div>
         </div>

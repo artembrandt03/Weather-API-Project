@@ -135,6 +135,29 @@ const init = () => {
   dom.mainDesc.textContent = "";
   dom.mainIcon.textContent = "";
 
+  const openBtn = document.getElementById("btnOpenApp");
+  const startup = document.getElementById("startupScreen");
+  const startupVideo = document.getElementById("startupVideo");
+
+  if (openBtn && startup) {
+    openBtn.addEventListener("click", () => {
+      document.body.classList.add("is-opened");
+
+      // stop video so it doesn't keep clashing / consuming resources
+      if (startupVideo) {
+        startupVideo.pause();
+        startupVideo.currentTime = 0;
+      }
+
+      // optional: remove startup overlay from DOM after transition
+      const remove = () => {
+        startup.removeEventListener("transitionend", remove);
+        startup.remove();
+      };
+      startup.addEventListener("transitionend", remove);
+    });
+  }
+
   if (dom.btnCurrentLocation) {
     dom.btnCurrentLocation.classList.add("is-cta");
   }
