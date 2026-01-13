@@ -127,6 +127,14 @@ const getForecast = async (dom, lat, lon) => {
 const init = () => {
   const dom = getDom();
 
+  dom.mainCity.textContent = "";
+  dom.mainDate.textContent = "";
+  dom.mainTime.textContent = "";
+  dom.mainWhenNote.textContent = "";
+  dom.mainTemp.textContent = "";
+  dom.mainDesc.textContent = "";
+  dom.mainIcon.textContent = "";
+
   if (dom.btnCurrentLocation) {
     dom.btnCurrentLocation.classList.add("is-cta");
   }

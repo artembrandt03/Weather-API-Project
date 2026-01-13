@@ -101,18 +101,22 @@
           <section class="card card--hero">
             <div class="hero__header">
               <h2 id="mainTitle" class="hero__title">
-                Main weather info for <span id="mainCity" class="highlightCity">—</span>
+                Main weather info for <span id="mainCity" class="highlightCity"></span>
               </h2>
 
-              <div class="hero__whenRow" aria-label="Forecast timestamp">
-                <span class="hero__whenItem"><strong>Date:</strong> <span id="mainDate">—</span></span>
-                <span class="hero__whenItem"><strong>Time:</strong> <span id="mainTime">—</span></span>
-                <span id="mainWhenNote" class="hero__whenNote muted">—</span>
+              <div class="hero__meta hero__meta--top">
+                <span class="metaLine">
+                  <strong>Date:</strong> <span id="mainDate"></span>
+                </span>
+                <span class="metaLine">
+                  <strong>Time:</strong> <span id="mainTime"></span>
+                </span>
+                <span id="mainWhenNote" class="muted"></span>
               </div>
             <div class="hero__meta">
               <span id="mainTemp" class="pill">—</span>
               <span id="mainDesc" class="pill">—</span>
-              <span id="mainIcon" class="icon" aria-hidden="true">⛅</span>
+              <span id="mainIcon" class="icon" aria-hidden="true"></span>
             </div>
             </div>
 
@@ -154,7 +158,7 @@
 
         <aside class="panel panel--right" aria-label="City Data">
           <section class="card">
-            <h2 id="cityDataTitle" class="card__title">City data <span class="muted">—</span></h2>
+            <h2 id="cityDataTitle" class="card__title">City data <span class="muted"></span></h2>
 
             <div class="kv">
               <div class="kv__row"><span class="kv__k">Population</span><span id="popVal" class="kv__v">—</span></div>
