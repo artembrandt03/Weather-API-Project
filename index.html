@@ -101,9 +101,14 @@
           <section class="card card--hero">
             <div class="hero__header">
               <h2 id="mainTitle" class="hero__title">
-                Main weather info for <span id="mainCity" class="hero__city">—</span>
-                <span class="muted" id="mainDate">[--/--/----]</span>
+                Main weather info for <span id="mainCity" class="highlightCity">—</span>
               </h2>
+
+              <div class="hero__whenRow" aria-label="Forecast timestamp">
+                <span class="hero__whenItem"><strong>Date:</strong> <span id="mainDate">—</span></span>
+                <span class="hero__whenItem"><strong>Time:</strong> <span id="mainTime">—</span></span>
+                <span id="mainWhenNote" class="hero__whenNote muted">—</span>
+              </div>
             <div class="hero__meta">
               <span id="mainTemp" class="pill">—</span>
               <span id="mainDesc" class="pill">—</span>
