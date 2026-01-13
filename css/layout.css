@@ -13,9 +13,7 @@ body {
   flex: 1;
 }
 
-/* Header & Footer base */
-.app__header,
-.app__footer {
+.app__header {
   background: var(--header);
   color: white;
 }
