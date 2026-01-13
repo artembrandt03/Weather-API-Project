@@ -35,6 +35,11 @@
 
         <!-- COMPACT HEADER (appears after Open) -->
         <div class="headerBar">
+          <video id="headerVideo" class="headerBar__video" muted loop playsinline preload="auto">
+            <source src="./assets/video/weather-background.mp4" type="video/mp4" />
+          </video>
+          <div class="headerBar__blur" aria-hidden="true"></div>
+
           <div class="app__header-inner headerBar__inner">
             <div class="headerBar__row">
               <span class="headerBar__title">Weather Forecast</span>

@@ -138,21 +138,29 @@ const init = () => {
   const openBtn = document.getElementById("btnOpenApp");
   const startup = document.getElementById("startupScreen");
   const startupVideo = document.getElementById("startupVideo");
+  const headerVideo = document.getElementById("headerVideo");
 
   if (openBtn && startup) {
     openBtn.addEventListener("click", () => {
-      document.body.classList.add("is-opened");
+      if (document.body.classList.contains("is-opened")) return;
+      openBtn.disabled = true;
 
-      // stop video so it doesn't keep clashing / consuming resources
-      if (startupVideo) {
-        startupVideo.pause();
-        startupVideo.currentTime = 0;
+      // Start header video when opening
+      if (headerVideo) {
+        headerVideo.currentTime = startupVideo?.currentTime ?? 0;
+        headerVideo.play().catch(() => {});
       }
 
-      // optional: remove startup overlay from DOM after transition
+      document.body.classList.add("is-opened");
+
+      // remove startup after animation
       const remove = () => {
         startup.removeEventListener("transitionend", remove);
         startup.remove();
+        if (startupVideo) {
+          startupVideo.pause();
+          startupVideo.currentTime = 0;
+        }
       };
       startup.addEventListener("transitionend", remove);
     });
