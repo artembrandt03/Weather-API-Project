@@ -13,12 +13,14 @@ body {
   flex: 1;
 }
 
+/* Header & Footer base */
 .app__header,
 .app__footer {
   background: var(--header);
   color: white;
 }
 
+/* Shared inner container */
 .app__header-inner,
 .app__footer-inner {
   max-width: 1150px;
@@ -30,12 +32,14 @@ body {
   text-align: center;
 }
 
+/* Header title (kept untouched) */
 .app__title {
   margin: 0;
   font-size: 1.65rem;
   letter-spacing: 0.2px;
 }
 
+/* Main layout */
 .app__main {
   max-width: 1150px;
   margin: 18px auto;
@@ -46,6 +50,7 @@ body {
   align-items: start;
 }
 
+/* Panels */
 .panel {
   background: var(--panel);
   border-radius: var(--radius);
@@ -54,10 +59,89 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.footer__title {
-  font-weight: 800;
-  letter-spacing: 0.3px;
+/* =========================
+   FOOTER (COMPACT VERSION)
+   ========================= */
+
+.app__footer {
+  padding: 18px 16px 14px;
 }
+
+/* Main footer grid — single row on desktop */
+.footerGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  align-items: start;
+  text-align: left;
+}
+
+/* Footer blocks */
+.footerBlock {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.footerTitle {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.footerText {
+  margin: 0;
+}
+
+.footerText--muted {
+  opacity: 0.75;
+}
+
+.footerList {
+  margin: 0;
+  padding-left: 16px;
+}
+
+/* Copyright block slightly smaller */
+.footerBlock[aria-label="Rights"] {
+  font-size: 0.8rem;
+}
+
+/* GitHub button row */
+.footerRepo {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.footerRepo__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.footerRepo__link:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.7);
+}
+
+.footerRepo__icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* =========================
+   RESPONSIVE FOOTER
+   ========================= */
 
 @media (max-width: 980px) {
   .app__main {
@@ -71,30 +155,15 @@ body {
   .app__title {
     font-size: 1.35rem;
   }
+
+  .footerGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
 }
 
-/* Footer layout */
-.footerGrid {
-  display: grid;
-  gap: 14px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: start;
-}
-
-.footerBottom {
-  grid-column: 1 / -1;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 6px;
-}
-
-@media (max-width: 980px) {
+@media (max-width: 520px) {
   .footerGrid {
     grid-template-columns: 1fr;
-  }
-  .footerBottom {
-    justify-content: flex-start;
   }
 }
