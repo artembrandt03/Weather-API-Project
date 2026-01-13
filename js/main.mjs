@@ -129,6 +129,27 @@ const init = () => {
   const yearEl = document.getElementById("footerYear");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  // -----------------------------
+  // Dynamic background (time-based)
+  // -----------------------------
+  // Uses user's local time by default:
+  //
+  // Night     → 22:00 – 05:00
+  // Sunrise   → 05:00 – 07:00
+  // Morning   → 07:00 – 12:00
+  // Daytime   → 12:00 – 17:00
+  // Evening   → 17:00 – 19:00
+  // Sunset    → 19:00 – 22:00
+  //
+  // Testing examples (uncomment ONE at a time):
+  // applyDynamicBackground({ debugHour: 23 }); // Night
+  // applyDynamicBackground({ debugHour: 6 });  // Sunrise
+  // applyDynamicBackground({ debugHour: 9 });  // Morning
+  // applyDynamicBackground({ debugHour: 14 }); // Daytime
+  // applyDynamicBackground({ debugHour: 18 }); // Evening
+  // applyDynamicBackground({ debugHour: 20 }); // Sunset
+  //
+  // Production (auto-detects local time):
   applyDynamicBackground();
 
   //temp
