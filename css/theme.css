@@ -455,17 +455,16 @@ body.is-opened .app__main {
   justify-content: center;
 }
 
-/* Sun gif behind the button, top-left */
 .startup__sun {
   position: absolute;
-  left: 6px;
-  top: -6px;
+  left: 10px;
+  top: -38px;              /* ← moved up so face is fully visible */
 
   width: 110px;
   height: 110px;
 
-  opacity: 0.9;          /* no dimming */
-  filter: none;        /* no blur */
+  opacity: 0.9;
+  filter: none;
 
   pointer-events: none;
   z-index: 0;
