@@ -11,6 +11,7 @@ import {
 } from "./ui/render.mjs";
 import { getCurrentCoords } from "./services/geolocation.mjs";
 import { saveWeather, loadWeather, isFresh } from "./services/storage.mjs";
+import { applyDynamicBackground } from "./ui/background.mjs";
 
 const state = {
   suggestions: [],
@@ -127,6 +128,9 @@ const init = () => {
   const dom = getDom();
   const yearEl = document.getElementById("footerYear");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  applyDynamicBackground();
+
   //temp
   console.log({
   mainTemp: dom.mainTemp,
