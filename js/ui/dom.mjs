@@ -42,6 +42,7 @@ export const getDom = () => {
     mainCity: document.getElementById("mainCity"),
     mainDate: document.getElementById("mainDate"),
     mainTime: document.getElementById("mainTime"),
-    mainWhenNote: document.getElementById("mainWhenNote")
+    mainWhenNote: document.getElementById("mainWhenNote"),
+    mainIcon: document.getElementById("mainIcon")
   };
 };
