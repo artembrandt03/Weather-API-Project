@@ -25,12 +25,29 @@ export const renderCitySuggestions = (dom, suggestions) => {
   dom.cityDropdown.disabled = suggestions.length === 0;
 };
 
+const getWeatherEmoji = (w) => {
+  const id = Number(w?.id);
+  const icon = String(w?.icon || "");
+  const isNight = icon.endsWith("n");
+
+  if (id >= 200 && id < 300) return "⛈️"; // thunderstorm
+  if (id >= 300 && id < 400) return "🌦️"; // drizzle
+  if (id >= 500 && id < 600) return "🌧️"; // rain
+  if (id >= 600 && id < 700) return "🌨️"; // snow
+  if (id >= 700 && id < 800) return "🌫️"; // fog/dust/etc
+  if (id === 800) return isNight ? "🌙" : "☀️"; // clear
+  if (id > 800 && id < 900) return isNight ? "☁️" : "⛅"; // clouds
+  return "⛅";
+};
+
 export const renderWeatherMain = (dom, forecast) => {
   if (!forecast?.list?.length) return;
 
   const now = forecast.list[0];
   dom.mainTemp.textContent = `${Math.round(now.main.temp)} °C`;
   dom.mainDesc.textContent = now.weather[0]?.description ?? "";
+  const w = now.weather?.[0];
+  if (dom.mainIcon) dom.mainIcon.textContent = getWeatherEmoji(w);
 };
 
 export const renderTabs = (dom, forecast) => {

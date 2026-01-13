@@ -100,7 +100,10 @@
         <section class="panel panel--center" aria-label="Weather Display">
           <section class="card card--hero">
             <div class="hero__header">
-              <h2 id="mainTitle" class="hero__title">Main weather info <span class="muted">[--/--/----]</span></h2>
+              <h2 id="mainTitle" class="hero__title">
+                Main weather info for <span id="mainCity" class="hero__city">—</span>
+                <span class="muted" id="mainDate">[--/--/----]</span>
+              </h2>
             <div class="hero__meta">
               <span id="mainTemp" class="pill">—</span>
               <span id="mainDesc" class="pill">—</span>
@@ -109,7 +112,7 @@
             </div>
 
             <nav class="tabs" aria-label="Weather tabs">
-              <button class="tab is-active" type="button" data-tab="temp">Temp</button>
+              <button class="tab is-active" type="button" data-tab="temp">Temperature</button>
               <button class="tab" type="button" data-tab="pressure">Pressure</button>
               <button class="tab" type="button" data-tab="wind">Wind</button>
             </nav>
@@ -117,27 +120,27 @@
             <div class="tabpanes">
               <section id="tab-temp" class="pane is-active">
                 <div class="kv">
-                  <div class="kv__row"><span class="kv__k">temp</span><span id="tempValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">feels_like</span><span id="feelsLikeValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">temp_max</span><span id="tempMaxValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">temp_min</span><span id="tempMinValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Temperature</span><span id="tempValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Feels like</span><span id="feelsLikeValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Max temperature</span><span id="tempMaxValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Min temperature</span><span id="tempMinValue" class="kv__v">—</span></div>
                 </div>
               </section>
 
               <section id="tab-pressure" class="pane">
                 <div class="kv">
-                  <div class="kv__row"><span class="kv__k">pressure</span><span id="pressureValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">humidity</span><span id="humidityValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">sea_level</span><span id="seaLevelValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">grnd_level</span><span id="groundLevelValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Pressure</span><span id="pressureValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Humidity</span><span id="humidityValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Sea level</span><span id="seaLevelValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Ground level</span><span id="groundLevelValue" class="kv__v">—</span></div>
                 </div>
               </section>
 
               <section id="tab-wind" class="pane">
                 <div class="kv">
-                  <div class="kv__row"><span class="kv__k">speed</span><span id="windSpeedValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">gust</span><span id="windGustValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">deg</span><span id="windDegValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Speed</span><span id="windSpeedValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Gust</span><span id="windGustValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Direction (deg)</span><span id="windDegValue" class="kv__v">—</span></div>
                 </div>
               </section>
             </div>
