@@ -125,6 +125,8 @@ const getForecast = async (dom, lat, lon) => {
 
 const init = () => {
   const dom = getDom();
+  const yearEl = document.getElementById("footerYear");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
   //temp
   console.log({
   mainTemp: dom.mainTemp,

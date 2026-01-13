@@ -156,12 +156,54 @@
         </aside>
       </main>
 
-      <footer class="app__footer">
-        <div class="app__footer-inner">
-          <div class="footer__title">Artem Brandt (c)</div>
-          <div class="app__badge">This app is for academic use only</div>
+    <footer class="app__footer">
+      <div class="app__footer-inner footerGrid">
+        <!-- About / disclaimer -->
+        <section class="footerBlock" aria-label="About this app">
+          <h2 class="footerTitle">About</h2>
+          <p class="footerText">
+            This weather app is a personal side project and is not intended for serious or safety-critical use.
+            Data may be delayed or inaccurate.
+          </p>
+        </section>
+
+        <!-- Attributions -->
+        <section class="footerBlock" aria-label="Attributions">
+          <h2 class="footerTitle">Attributions</h2>
+          <ul class="footerList">
+            <li>
+              Weather data:
+              <a class="footerLink" href="https://openweathermap.org/api" target="_blank" rel="noopener noreferrer">
+                OpenWeather API
+              </a>
+            </li>
+            <li>
+              Header video:
+              <a class="footerLink" href="https://www.pexels.com/video/a-beautiful-view-of-sunset-1893623/" target="_blank" rel="noopener noreferrer">
+                Pexels (Sunset video)
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Rights -->
+        <section class="footerBlock" aria-label="Rights">
+          <h2 class="footerTitle">Copyright</h2>
+          <p class="footerText">
+            © <span id="footerYear"></span> <strong>Artem Brandt</strong>. All rights reserved.
+          </p>
+          <p class="footerText footerText--muted">
+            Unauthorized copying or redistribution of this project’s code and design is not permitted.
+          </p>
+        </section>
+
+        <!-- Bottom bar -->
+        <div class="footerBottom">
+          <span class="footerBottom__pill">Built by <strong>Artem Brandt</strong></span>
+          <span class="footerBottom__pill">OpenWeather + Pexels credits included</span>
         </div>
-      </footer>
+      </div>
+    </footer>
     </div>
 
     <script type="module" src="./js/main.mjs"></script>
