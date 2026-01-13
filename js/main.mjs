@@ -126,6 +126,11 @@ const getForecast = async (dom, lat, lon) => {
 
 const init = () => {
   const dom = getDom();
+
+  if (dom.btnCurrentLocation) {
+    dom.btnCurrentLocation.classList.add("is-cta");
+  }
+
   const yearEl = document.getElementById("footerYear");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
@@ -173,6 +178,10 @@ const init = () => {
   dom.cityDropdown.addEventListener("change", () => onCitySelect(dom));
 
   dom.btnCurrentLocation?.addEventListener("click", async () => {
+
+    dom.btnCurrentLocation.classList.remove("is-cta");
+    dom.btnCurrentLocation.classList.add("is-used");
+    dom.btnCurrentLocation.textContent = "Using Current Location";
     try {
       renderStatus(dom, "Requesting location...");
       const { lat, lon } = await getCurrentCoords();

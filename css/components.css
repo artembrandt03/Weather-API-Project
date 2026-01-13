@@ -363,3 +363,58 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
+
+/* CTA button (Current Location) */
+.btn--cta {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: linear-gradient(180deg, #4aa3ff, #2a6bff);
+  color: #fff;
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.10) inset;
+}
+
+.btn--cta:hover {
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+}
+
+.btn--cta:active {
+  transform: translateY(0px);
+}
+
+@keyframes ctaShake {
+  0%, 92%, 100% { transform: translateX(0); }
+  93% { transform: translateX(-2px); }
+  94% { transform: translateX(2px); }
+  95% { transform: translateX(-2px); }
+  96% { transform: translateX(2px); }
+  97% { transform: translateX(-1px); }
+  98% { transform: translateX(1px); }
+  99% { transform: translateX(0); }
+}
+
+.btn--cta.is-cta {
+  animation: ctaShake 3s ease-in-out infinite;
+}
+
+.btn--cta.is-cta:hover,
+.btn--cta.is-cta:focus-visible {
+  animation: none;
+}
+
+.btn--cta.is-used {
+  opacity: 0.65;
+  filter: saturate(0.7) brightness(0.95);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+  cursor: default;
+  animation: none;
+}
+
+.btn--cta.is-used:hover {
+  filter: saturate(0.7) brightness(0.95);
+  transform: none;
+}
