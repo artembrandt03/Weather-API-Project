@@ -1,8 +1,12 @@
 .card {
-  background: var(--card);
+  background: rgba(255, 255, 255, 0.55);
   border-radius: var(--radius-sm);
   padding: 14px;
-  border: 1px solid var(--border);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
 .card + .card {
@@ -88,19 +92,34 @@
 }
 
 .card--hero {
-  border: 2px solid rgba(178, 31, 45, 0.25);
+  background: rgba(255, 255, 255, 0.55); /* was fully opaque via --card */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .hero__header {
-  display: grid;
-  gap: 10px;
-  padding: 6px 4px 10px;
+  background: rgba(255, 255, 255, 0.20);
+  border-radius: 14px;
+  padding: 10px 10px 12px;
 }
 
 .hero__title {
   margin: 0;
   font-size: 1.2rem;
   font-weight: 900;
+}
+
+.hero__city {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-weight: 900;
+
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .hero__meta {
@@ -122,33 +141,76 @@
   font-size: 1.35rem;
 }
 
+/* Tabs (glass / iOS-like) */
 .tabs {
   display: flex;
-  gap: 8px;
-  margin: 10px 0 10px;
+  gap: 10px;
+  margin: 10px 0 12px;
 }
 
 .tab {
-  padding: 10px 12px;
-  border-radius: 12px 12px 0 0;
-  border: 1px solid var(--border);
-  background: #d9d9d9;
-  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  color: rgba(15, 31, 26, 0.85);
   font-weight: 900;
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.tab:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.32);
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .tab.is-active {
-  background: #0e7a7b;
-  color: white;
-  border-color: rgba(14, 122, 123, 0.5);
+  background: rgba(255, 255, 255, 0.32);
+  border-color: rgba(255, 255, 255, 0.42);
+  color: rgba(10, 12, 16, 0.92);
+
+  box-shadow:
+    0 12px 26px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
+.tab:active {
+  transform: translateY(0px) scale(0.99);
+}
+
+/* Tab content container should also look like glass */
 .tabpanes {
-  border: 1px solid var(--border);
-  border-radius: 0 12px 12px 12px;
-  background: white;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
   padding: 12px;
   min-height: 240px;
+
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .pane {
@@ -187,4 +249,211 @@
   border: 1px solid rgba(0, 0, 0, 0.25);
   background: rgba(242, 244, 94, 0.35);
   font-weight: 900;
+}
+
+/* Footer styling */
+.footerBlock {
+  padding: 8px 4px;
+}
+
+.footerTitle {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  opacity: 0.95;
+}
+
+.footerText {
+  margin: 0;
+  line-height: 1.45;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.footerText + .footerText {
+  margin-top: 8px;
+}
+
+.footerText--muted {
+  opacity: 0.75;
+}
+
+.footerList {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.footerList li {
+  margin: 6px 0;
+  line-height: 1.35;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.footerLink {
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footerLink:hover {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(120, 180, 255, 0.5);
+}
+
+.footerRepo {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+
+  display: flex;
+  justify-content: center;
+}
+
+.footerRepo__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 16px;
+  border-radius: 999px;
+
+  background: #0b0b0b;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 0.95rem;
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.footerRepo__link:hover {
+  transform: scale(1.04);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.45);
+  background: #000000;
+}
+
+.footerRepo__icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* --- Tabs: make them more "glass" and less like normal buttons --- */
+.tabs {
+  gap: 8px;
+}
+
+.tab {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: rgba(10, 12, 16, 0.88);
+}
+
+.tab:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.tab.is-active {
+  background: rgba(255, 255, 255, 0.26);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+/* --- Tab content container: glass panel --- */
+.tabpanes {
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* CTA button (Current Location) */
+.btn--cta {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: linear-gradient(180deg, #4aa3ff, #2a6bff);
+  color: #fff;
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.10) inset;
+}
+
+.btn--cta:hover {
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+}
+
+.btn--cta:active {
+  transform: translateY(0px);
+}
+
+@keyframes ctaShake {
+  0%, 92%, 100% { transform: translateX(0); }
+  93% { transform: translateX(-2px); }
+  94% { transform: translateX(2px); }
+  95% { transform: translateX(-2px); }
+  96% { transform: translateX(2px); }
+  97% { transform: translateX(-1px); }
+  98% { transform: translateX(1px); }
+  99% { transform: translateX(0); }
+}
+
+.btn--cta.is-cta {
+  animation: ctaShake 3s ease-in-out infinite;
+}
+
+.btn--cta.is-cta:hover,
+.btn--cta.is-cta:focus-visible {
+  animation: none;
+}
+
+.btn--cta.is-used {
+  opacity: 0.65;
+  filter: saturate(0.7) brightness(0.95);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+  cursor: default;
+  animation: none;
+}
+
+.btn--cta.is-used:hover {
+  filter: saturate(0.7) brightness(0.95);
+  transform: none;
+}
+
+.highlightCity {
+  font-weight: 900;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.hero__whenRow {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.hero__whenItem {
+  font-weight: 800;
+  opacity: 0.95;
+}
+
+.hero__whenNote {
+  font-weight: 700;
+  opacity: 0.85;
 }

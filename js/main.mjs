@@ -11,6 +11,7 @@ import {
 } from "./ui/render.mjs";
 import { getCurrentCoords } from "./services/geolocation.mjs";
 import { saveWeather, loadWeather, isFresh } from "./services/storage.mjs";
+import { applyDynamicBackground } from "./ui/background.mjs";
 
 const state = {
   suggestions: [],
@@ -125,6 +126,76 @@ const getForecast = async (dom, lat, lon) => {
 
 const init = () => {
   const dom = getDom();
+
+  dom.mainCity.textContent = "";
+  dom.mainDate.textContent = "";
+  dom.mainTime.textContent = "";
+  dom.mainWhenNote.textContent = "";
+  dom.mainTemp.textContent = "";
+  dom.mainDesc.textContent = "";
+  dom.mainIcon.textContent = "";
+
+  const openBtn = document.getElementById("btnOpenApp");
+  const startup = document.getElementById("startupScreen");
+  const startupVideo = document.getElementById("startupVideo");
+  const headerVideo = document.getElementById("headerVideo");
+
+  if (openBtn && startup) {
+    openBtn.addEventListener("click", () => {
+      if (document.body.classList.contains("is-opened")) return;
+      openBtn.disabled = true;
+
+      // Start header video when opening
+      if (headerVideo) {
+        headerVideo.currentTime = startupVideo?.currentTime ?? 0;
+        headerVideo.play().catch(() => {});
+      }
+
+      document.body.classList.add("is-opened");
+
+      // remove startup after animation
+      const remove = () => {
+        startup.removeEventListener("transitionend", remove);
+        startup.remove();
+        if (startupVideo) {
+          startupVideo.pause();
+          startupVideo.currentTime = 0;
+        }
+      };
+      startup.addEventListener("transitionend", remove);
+    });
+  }
+
+  if (dom.btnCurrentLocation) {
+    dom.btnCurrentLocation.classList.add("is-cta");
+  }
+
+  const yearEl = document.getElementById("footerYear");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // -----------------------------
+  // Dynamic background (time-based)
+  // -----------------------------
+  // Uses user's local time by default:
+  //
+  // Night     → 22:00 – 05:00
+  // Sunrise   → 05:00 – 07:00
+  // Morning   → 07:00 – 12:00
+  // Daytime   → 12:00 – 17:00
+  // Evening   → 17:00 – 19:00
+  // Sunset    → 19:00 – 22:00
+  //
+  // Testing examples (uncomment ONE at a time):
+  // applyDynamicBackground({ debugHour: 23 }); // Night
+  // applyDynamicBackground({ debugHour: 6 });  // Sunrise
+  // applyDynamicBackground({ debugHour: 9 });  // Morning
+  // applyDynamicBackground({ debugHour: 14 }); // Daytime
+  // applyDynamicBackground({ debugHour: 18 }); // Evening
+  // applyDynamicBackground({ debugHour: 20 }); // Sunset
+  //
+  // Production (auto-detects local time):
+  applyDynamicBackground();
+
   //temp
   console.log({
   mainTemp: dom.mainTemp,
@@ -146,6 +217,10 @@ const init = () => {
   dom.cityDropdown.addEventListener("change", () => onCitySelect(dom));
 
   dom.btnCurrentLocation?.addEventListener("click", async () => {
+
+    dom.btnCurrentLocation.classList.remove("is-cta");
+    dom.btnCurrentLocation.classList.add("is-used");
+    dom.btnCurrentLocation.textContent = "Using Current Location";
     try {
       renderStatus(dom, "Requesting location...");
       const { lat, lon } = await getCurrentCoords();

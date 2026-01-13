@@ -14,9 +14,50 @@
   <body>
     <div class="app">
       <header class="app__header">
-        <div class="app__header-inner">
-          <h1 class="app__title">Your Weather APP on your Palm - REST API</h1>
-          <div class="app__badge">This app is for academic use only</div>
+        <!-- STARTUP / SPLASH OVERLAY (full screen) -->
+        <section id="startupScreen" class="startup" aria-label="Startup screen">
+          <video id="startupVideo" class="startup__video" autoplay muted loop playsinline preload="auto">
+            <source src="./assets/video/weather-background.mp4" type="video/mp4" />
+          </video>
+
+          <div class="startup__overlay" aria-hidden="true"></div>
+
+          <div class="startup__content">
+            <h1 class="startup__title">Weather Forecast</h1>
+            <p class="startup__subtitle">Powered by OpenWeather API</p>
+            <p class="startup__byline">Developed by <span class="headerName">Artem Brandt</span></p>
+
+            <div class="startup__actions">
+              <img
+                class="startup__sun"
+                src="./assets/gifs/transparent-sun-animation.gif"
+                alt=""
+                aria-hidden="true"
+              />
+
+              <button id="btnOpenApp" class="btn btn--open" type="button">
+                Open
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- COMPACT HEADER (appears after Open) -->
+        <div class="headerBar">
+          <video id="headerVideo" class="headerBar__video" muted loop playsinline preload="auto">
+            <source src="./assets/video/weather-background.mp4" type="video/mp4" />
+          </video>
+          <div class="headerBar__blur" aria-hidden="true"></div>
+
+          <div class="app__header-inner headerBar__inner">
+            <div class="headerBar__row">
+              <span class="headerBar__title">Weather Forecast</span>
+              <span class="headerBar__sep">•</span>
+              <span class="headerBar__meta">Powered by OpenWeather API</span>
+              <span class="headerBar__sep">•</span>
+              <span class="headerBar__meta">Artem Brandt</span>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -53,7 +94,7 @@
           <section class="card">
             <h2 class="card__title">Current Location</h2>
 
-            <button id="btnCurrentLocation" class="btn btn--primary" type="button">
+            <button id="btnCurrentLocation" class="btn btn--cta is-cta" type="button">
               Get Current Location
             </button>
 
@@ -87,15 +128,28 @@
         <section class="panel panel--center" aria-label="Weather Display">
           <section class="card card--hero">
             <div class="hero__header">
-              <h2 id="mainTitle" class="hero__title">Main weather info <span class="muted">[--/--/----]</span></h2>
+              <h2 id="mainTitle" class="hero__title">
+                Main weather info for <span id="mainCity" class="highlightCity"></span>
+              </h2>
+
+              <div class="hero__meta hero__meta--top">
+                <span class="metaLine">
+                  <strong>Date:</strong> <span id="mainDate"></span>
+                </span>
+                <span class="metaLine">
+                  <strong>Time:</strong> <span id="mainTime"></span>
+                </span>
+                <span id="mainWhenNote" class="muted"></span>
+              </div>
             <div class="hero__meta">
               <span id="mainTemp" class="pill">—</span>
               <span id="mainDesc" class="pill">—</span>
-              <span id="mainIcon" class="icon" aria-hidden="true">⛅</span>
+              <span id="mainIcon" class="icon" aria-hidden="true"></span>
+            </div>
             </div>
 
             <nav class="tabs" aria-label="Weather tabs">
-              <button class="tab is-active" type="button" data-tab="temp">Temp</button>
+              <button class="tab is-active" type="button" data-tab="temp">Temperature</button>
               <button class="tab" type="button" data-tab="pressure">Pressure</button>
               <button class="tab" type="button" data-tab="wind">Wind</button>
             </nav>
@@ -103,27 +157,27 @@
             <div class="tabpanes">
               <section id="tab-temp" class="pane is-active">
                 <div class="kv">
-                  <div class="kv__row"><span class="kv__k">temp</span><span id="tempValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">feels_like</span><span id="feelsLikeValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">temp_max</span><span id="tempMaxValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">temp_min</span><span id="tempMinValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Temperature</span><span id="tempValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Feels like</span><span id="feelsLikeValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Max temperature</span><span id="tempMaxValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Min temperature</span><span id="tempMinValue" class="kv__v">—</span></div>
                 </div>
               </section>
 
               <section id="tab-pressure" class="pane">
                 <div class="kv">
-                  <div class="kv__row"><span class="kv__k">pressure</span><span id="pressureValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">humidity</span><span id="humidityValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">sea_level</span><span id="seaLevelValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">grnd_level</span><span id="groundLevelValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Pressure</span><span id="pressureValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Humidity</span><span id="humidityValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Sea level</span><span id="seaLevelValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Ground level</span><span id="groundLevelValue" class="kv__v">—</span></div>
                 </div>
               </section>
 
               <section id="tab-wind" class="pane">
                 <div class="kv">
-                  <div class="kv__row"><span class="kv__k">speed</span><span id="windSpeedValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">gust</span><span id="windGustValue" class="kv__v">—</span></div>
-                  <div class="kv__row"><span class="kv__k">deg</span><span id="windDegValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Speed</span><span id="windSpeedValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Gust</span><span id="windGustValue" class="kv__v">—</span></div>
+                  <div class="kv__row"><span class="kv__k">Direction (deg)</span><span id="windDegValue" class="kv__v">—</span></div>
                 </div>
               </section>
             </div>
@@ -132,7 +186,7 @@
 
         <aside class="panel panel--right" aria-label="City Data">
           <section class="card">
-            <h2 id="cityDataTitle" class="card__title">City data <span class="muted">—</span></h2>
+            <h2 id="cityDataTitle" class="card__title">City data <span class="muted"></span></h2>
 
             <div class="kv">
               <div class="kv__row"><span class="kv__k">Population</span><span id="popVal" class="kv__v">—</span></div>
@@ -143,12 +197,124 @@
         </aside>
       </main>
 
-      <footer class="app__footer">
-        <div class="app__footer-inner">
-          <div class="footer__title">Artem Brandt (c)</div>
-          <div class="app__badge">This app is for academic use only</div>
-        </div>
-      </footer>
+    <footer class="app__footer">
+      <div class="app__footer-inner footerGrid">
+        <!-- About / disclaimer -->
+        <section class="footerBlock" aria-label="About this app">
+          <h2 class="footerTitle">About</h2>
+          <p class="footerText">
+            This weather app is a personal side project and is not intended for serious or safety-critical use.
+            Data may be delayed or inaccurate.
+          </p>
+        </section>
+
+        <!-- Attributions -->
+        <section class="footerBlock" aria-label="Attributions">
+          <h2 class="footerTitle">Attributions</h2>
+          <ul class="footerList">
+            <li>
+              Weather data:
+              <a class="footerLink" href="https://openweathermap.org/api" target="_blank" rel="noopener noreferrer">
+                OpenWeather API
+              </a>
+            </li>
+            <li>
+              Header video:
+              <a class="footerLink" href="https://www.pexels.com/video/a-beautiful-view-of-sunset-1893623/" target="_blank" rel="noopener noreferrer">
+                Pexels (Sunset video)
+              </a>
+            </li>
+            <li>
+              GitHub logo:
+              <a href="https://github.com/logos" target="_blank" rel="noopener noreferrer">
+                GitHub Logos
+              </a>
+            </li>
+            <li>
+              Sun animation:
+              <a
+                class="footerLink"
+                href="https://www.pinterest.com/pin/171207223319014724/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Pinterest
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Background images -->
+        <section class="footerBlock" aria-label="Background image credits">
+          <h2 class="footerTitle">Background images</h2>
+          <ul class="footerList">
+            <li>
+              Night sky:
+              <a class="footerLink" href="https://unsplash.com/photos/cluster-of-stars-in-the-sky-qVotvbsuM_c" target="_blank" rel="noopener noreferrer">
+                Unsplash
+              </a>
+            </li>
+            <li>
+              Sunrise:
+              <a class="footerLink" href="https://unsplash.com/photos/trees-under-cloudy-sky-during-sunset--G3rw6Y02D0" target="_blank" rel="noopener noreferrer">
+                Unsplash
+              </a>
+            </li>
+            <li>
+              Morning:
+              <a class="footerLink" href="https://unsplash.com/photos/a-view-of-a-mountain-range-with-trees-and-mountains-in-the-background-Oq_Pj-QcbLM" target="_blank" rel="noopener noreferrer">
+                Unsplash
+              </a>
+            </li>
+            <li>
+              Daytime:
+              <a class="footerLink" href="https://unsplash.com/photos/white-clouds-in-the-sky-rTOQN2_aRjU" target="_blank" rel="noopener noreferrer">
+                Unsplash
+              </a>
+            </li>
+            <li>
+              Evening:
+              <a class="footerLink" href="https://unsplash.com/photos/photo-of-blue-and-red-clouds-n0AlE3-Ad8I" target="_blank" rel="noopener noreferrer">
+                Unsplash
+              </a>
+            </li>
+            <li>
+              Sunset:
+              <a class="footerLink" href="https://unsplash.com/photos/sunset-GPPAjJicemU" target="_blank" rel="noopener noreferrer">
+                Unsplash
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Rights -->
+        <section class="footerBlock" aria-label="Rights">
+          <h2 class="footerTitle">Copyright</h2>
+          <p class="footerText">
+            © <span id="footerYear"></span> <strong>Artem Brandt</strong>. All rights reserved.
+          </p>
+          <p class="footerText footerText--muted">
+            Unauthorized copying or redistribution of this project’s code and design is not permitted.
+          </p>
+        </section>
+      </div>
+
+      <div class="footerRepo">
+        <a
+          class="footerRepo__link"
+          href="https://github.com/artembrandt03/Weather-API-Project"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="./assets/images/GitHub-Mark.png"
+            alt="GitHub logo"
+            class="footerRepo__icon"
+          />
+          <span>View original source code</span>
+        </a>
+      </div>
+    </footer>
     </div>
 
     <script type="module" src="./js/main.mjs"></script>

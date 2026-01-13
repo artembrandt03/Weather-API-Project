@@ -36,6 +36,13 @@ export const getDom = () => {
 
     btnCurrentLocation: document.getElementById("btnCurrentLocation"),
     btnLocalStorage: document.getElementById("btnLocalStorage"),
-    chkUseCache: document.getElementById("chkUseCache")
+    chkUseCache: document.getElementById("chkUseCache"),
+
+    // extra
+    mainCity: document.getElementById("mainCity"),
+    mainDate: document.getElementById("mainDate"),
+    mainTime: document.getElementById("mainTime"),
+    mainWhenNote: document.getElementById("mainWhenNote"),
+    mainIcon: document.getElementById("mainIcon")
   };
 };
