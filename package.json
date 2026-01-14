@@ -4,10 +4,12 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "lint": "eslint .",
     "dev": "concurrently \"npm run dev:ui\" \"npm run dev:api\"",
     "dev:ui": "npx vite --port 3000",
-    "dev:api": "nodemon server/server.mjs"
+    "dev:api": "nodemon server/server.mjs",
+
+    "build": "vite build",
+    "start": "node server/server.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
