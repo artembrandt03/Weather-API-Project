@@ -184,18 +184,22 @@ app.get("/api/forecast", async (req, res) => {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const distPath = path.join(__dirname, "..", "dist");
 
-app.use(express.static(distPath));
-if (!fs.existsSync(distPath)) {
-  console.warn(`[server] dist folder not found at: ${distPath}`);
-  console.warn(`[server] Did you run "npm run build"?`);
-}
+// Only serve built frontend in production
+if (process.env.NODE_ENV === "production") {
+  if (!fs.existsSync(distPath)) {
+    console.warn(`[server] dist folder not found at: ${distPath}`);
+    console.warn(`[server] Did you run "npm run build"?`);
+  } else {
+    app.use(express.static(distPath));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(distPath, "index.html"));
-});
+    // SPA fallback (regex avoids path-to-regexp "*" crash)
+    app.get(/^(?!\/api).*/, (req, res) => {
+      res.sendFile(path.join(distPath, "index.html"));
+    });
+  }
+}
 
 app.listen(PORT, () => {
   console.log(`[server] running on port ${PORT}`);
