@@ -22,10 +22,45 @@ const geminiLimiter = rateLimit({
   message: { error: "Rate limit reached. Try again in a few minutes." }
 });
 
+// Logic for demo tries per day
+const DAILY_AI_LIMIT = 3;
+const aiUsage = new Map(); // key -> { date: "YYYY-MM-DD", count: number }
+
+const todayKey = () => new Date().toISOString().slice(0, 10);
+
+const getClientId = (req) => {
+  // basic: IP-based
+  const ip = req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
+  return ip;
+};
+
+const checkDailyQuota = (req) => {
+  const id = getClientId(req);
+  const today = todayKey();
+
+  const entry = aiUsage.get(id);
+  if (!entry || entry.date !== today) {
+    aiUsage.set(id, { date: today, count: 0 });
+  }
+
+  const cur = aiUsage.get(id);
+  if (cur.count >= DAILY_AI_LIMIT) return { ok: false, remaining: 0 };
+
+  cur.count += 1;
+  return { ok: true, remaining: DAILY_AI_LIMIT - cur.count };
+};
+
 // -------------------------
 // Gemini proxy
 // -------------------------
 app.post("/api/geminiWeather", geminiLimiter, async (req, res) => {
+  const quota = checkDailyQuota(req);
+  if (!quota.ok) {
+    return res.status(429).json({
+      error: "You're out of tries for the demo today.",
+      hint: "API needs to rest! Try again tomorrow."
+    });
+  }
   try {
     if (!GEMINI_KEY) return res.status(500).json({ error: "Server missing GEMINI_API_KEY" });
 
