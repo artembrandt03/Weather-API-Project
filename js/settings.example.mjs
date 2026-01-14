@@ -6,7 +6,7 @@ export const OPENWEATHER = {
 
 export const GEMINI = {
   API_KEY: "YOUR_GEMINI_KEY",
-  MODEL: "gemini-1.5-flash"
+  MODEL: "gemini-2.0-flash"
 };
 
 export const LIMITS = {
