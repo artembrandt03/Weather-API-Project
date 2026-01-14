@@ -1,7 +1,7 @@
 import { LIMITS } from "../settings.mjs";
 import { safeFetchJson } from "../utils.mjs";
 
-const API_BASE = "http://localhost:5050/api";
+const API_BASE = "/api";
 
 export const fetchCitySuggestions = async (query) => {
   const q = query.trim();
