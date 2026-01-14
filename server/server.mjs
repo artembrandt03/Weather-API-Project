@@ -1,10 +1,14 @@
 import express from "express";
 import dotenv from "dotenv";
 import rateLimit from "express-rate-limit";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
 
 dotenv.config();
 
 const app = express();
+app.set("trust proxy", 1);
 app.use(express.json({ limit: "1mb" }));
 
 const PORT = Number(process.env.PORT || 5050);
@@ -178,6 +182,21 @@ app.get("/api/forecast", async (req, res) => {
   }
 });
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const distPath = path.join(__dirname, "..", "dist");
+
+app.use(express.static(distPath));
+if (!fs.existsSync(distPath)) {
+  console.warn(`[server] dist folder not found at: ${distPath}`);
+  console.warn(`[server] Did you run "npm run build"?`);
+}
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
+
 app.listen(PORT, () => {
-  console.log(`[api] running on http://localhost:${PORT}`);
+  console.log(`[server] running on port ${PORT}`);
 });
