@@ -16,15 +16,13 @@ Wind speed: ${weather.wind_speed} m/s
 Respond EXACTLY in this format:
 
 Summary:
-<1–2 sentences>
+<Summarize the weather in 1 sentence. Do not exactly repeat the input data.>
 
-Activities:
-- bullet
-- bullet
-- bullet
+<Suggest an activity or two to do in this weather. Keep it brief.>
 
-Bring:
-item, item, item
+<Suggest what to bring (e.g., clothing, accessories) in this weather. Keep it brief.>
+
+Sound cheerful!
 `;
 
   const body = {
