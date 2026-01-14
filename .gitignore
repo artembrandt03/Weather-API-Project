@@ -7,4 +7,3 @@ node_modules/
 # secrets
 js/settings.mjs
 .env
-.env.*

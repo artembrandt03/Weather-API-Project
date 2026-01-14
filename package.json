@@ -5,9 +5,19 @@
   "private": true,
   "scripts": {
     "lint": "eslint .",
-    "dev": "npx serve ."
+    "dev": "concurrently \"npm run dev:ui\" \"npm run dev:api\"",
+    "dev:ui": "npx vite --port 3000",
+    "dev:api": "nodemon server/server.mjs"
   },
   "devDependencies": {
-    "eslint": "^9.0.0"
+    "concurrently": "^9.2.1",
+    "eslint": "^9.0.0",
+    "nodemon": "^3.1.11",
+    "vite": "^7.3.1"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1"
   }
 }

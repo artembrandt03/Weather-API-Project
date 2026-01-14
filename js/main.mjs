@@ -21,6 +21,8 @@ const state = {
   lastForecast: null
 };
 
+let lastAiKey = null;
+
 const isValidCityQuery = (value) => {
   const v = value.trim();
   if (v.length < 2 || v.length > 40) return false;
@@ -34,6 +36,9 @@ const debounce = (fn, delayMs) => {
     t = setTimeout(() => fn(...args), delayMs);
   };
 };
+
+const aiKeyForWeather = (w) =>
+  `${Math.round(w.temp)}|${Math.round(w.feels_like)}|${w.description}|${Math.round(w.wind_speed)}`;
 
 const onCityInput = (dom) =>
   debounce(async () => {
@@ -142,6 +147,13 @@ const renderAIWeather = async () => {
   const aiCard = document.getElementById("aiWeatherCard");
   if (!aiBox || !state.lastForecast) return;
 
+  const weather = extractWeatherForAI(state.lastForecast);
+  const key = aiKeyForWeather(weather);
+
+  // don’t re-call Gemini if the weather hasn’t changed
+  if (key === lastAiKey) return;
+  lastAiKey = key;
+
   aiBox.innerHTML = `
     <div class="aiLoading">
       <span class="aiSpinner" aria-hidden="true"></span>
@@ -150,18 +162,20 @@ const renderAIWeather = async () => {
   `;
 
   try {
-    const weather = extractWeatherForAI(state.lastForecast);
     const text = await generateWeatherSummary(weather);
 
     aiBox.classList.remove("aiFadeIn");
     aiBox.innerHTML = aiTextToHtml(text);
-
-    // trigger fade
     requestAnimationFrame(() => aiBox.classList.add("aiFadeIn"));
   } catch (err) {
     console.error(err);
-    aiBox.innerHTML = `<p class="muted">AI weather summary unavailable.</p>`;
+
+    const msg = err?.message || "AI weather summary unavailable.";
     aiBox.classList.remove("aiFadeIn");
+
+    aiBox.innerHTML = `
+      <p class="muted"><strong>Gemini AI:</strong> ${msg}</p>
+    `;
   }
 };
 
