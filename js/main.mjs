@@ -139,21 +139,75 @@ const extractWeatherForAI = (forecast) => {
 
 const renderAIWeather = async () => {
   const aiBox = document.getElementById("aiWeatherContent");
+  const aiCard = document.getElementById("aiWeatherCard");
   if (!aiBox || !state.lastForecast) return;
 
-  aiBox.textContent = "Generating AI weather tips…";
+  aiBox.innerHTML = `
+    <div class="aiLoading">
+      <span class="aiSpinner" aria-hidden="true"></span>
+      <span>Generating Gemini tips…</span>
+    </div>
+  `;
 
   try {
     const weather = extractWeatherForAI(state.lastForecast);
     const text = await generateWeatherSummary(weather);
 
-    aiBox.innerHTML = text
-      .replace(/\n/g, "<br>")
-      .replace(/- /g, "• ");
+    aiBox.classList.remove("aiFadeIn");
+    aiBox.innerHTML = aiTextToHtml(text);
+
+    // trigger fade
+    requestAnimationFrame(() => aiBox.classList.add("aiFadeIn"));
   } catch (err) {
     console.error(err);
-    aiBox.textContent = "AI weather summary unavailable.";
+    aiBox.innerHTML = `<p class="muted">AI weather summary unavailable.</p>`;
+    aiBox.classList.remove("aiFadeIn");
   }
+};
+
+const aiTextToHtml = (text) => {
+  const esc = (s) =>
+    s.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+
+  // Keep it simple: headings + bullets
+  const lines = String(text || "").split("\n").map((l) => l.trim());
+  let html = "";
+  let inList = false;
+
+  const flushList = () => {
+    if (inList) {
+      html += "</ul>";
+      inList = false;
+    }
+  };
+
+  for (const line of lines) {
+    if (!line) continue;
+
+    const isBullet = line.startsWith("- ");
+    const isHeader = /^(summary|activities|bring)\s*:/i.test(line);
+
+    if (isHeader) {
+      flushList();
+      html += `<div style="margin-top:10px;font-weight:900;">${esc(line)}</div>`;
+      continue;
+    }
+
+    if (isBullet) {
+      if (!inList) {
+        html += `<ul style="margin:6px 0 0 18px; padding:0;">`;
+        inList = true;
+      }
+      html += `<li style="margin:6px 0;">${esc(line.slice(2))}</li>`;
+      continue;
+    }
+
+    flushList();
+    html += `<p style="margin:8px 0;">${esc(line)}</p>`;
+  }
+
+  flushList();
+  return html || `<p class="muted">No AI response.</p>`;
 };
 
 const init = () => {

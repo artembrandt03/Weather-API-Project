@@ -197,9 +197,16 @@
           </section>
 
           <section class="card" id="aiWeatherCard">
-            <h2 class="card__title">AI Weather Tips</h2>
+            <div class="aiHeader">
+              <img
+                class="aiHeader__icon"
+                src="./assets/images/Google_Gemini_icon_2025.svg.png"
+                alt="Google Gemini"
+              />
+              <h2 class="aiHeader__title">Google Gemini AI — Summary & Suggestions</h2>
+            </div>
 
-            <div id="aiWeatherContent" class="aiWeather">
+            <div id="aiWeatherContent" class="aiWeather" aria-live="polite">
               <p class="muted">Generate tips based on current weather.</p>
             </div>
           </section>
