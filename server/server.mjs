@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import rateLimit from "express-rate-limit";
 
 dotenv.config();
 
@@ -13,10 +14,18 @@ const OWM_KEY = process.env.OPENWEATHER_API_KEY;
 if (!GEMINI_KEY) console.warn("Missing GEMINI_API_KEY in .env");
 if (!OWM_KEY) console.warn("Missing OPENWEATHER_API_KEY in .env");
 
+const geminiLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Rate limit reached. Try again in a few minutes." }
+});
+
 // -------------------------
 // Gemini proxy
 // -------------------------
-app.post("/api/geminiWeather", async (req, res) => {
+app.post("/api/geminiWeather", geminiLimiter, async (req, res) => {
   try {
     if (!GEMINI_KEY) return res.status(500).json({ error: "Server missing GEMINI_API_KEY" });
 
