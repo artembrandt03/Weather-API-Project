@@ -12,6 +12,7 @@ import {
 import { getCurrentCoords } from "./services/geolocation.mjs";
 import { saveWeather, loadWeather, isFresh } from "./services/storage.mjs";
 import { applyDynamicBackground } from "./ui/background.mjs";
+import { generateWeatherSummary } from "./services/gemini.mjs";
 
 const state = {
   suggestions: [],
@@ -96,6 +97,7 @@ const onCitySelect = async (dom) => {
     renderWeatherMain(dom, forecast);
     renderTabs(dom, forecast);
     renderCityMeta(dom, forecast);
+    renderAIWeather();
 
     renderStatus(dom, "Forecast loaded.");
   } catch (err) {
@@ -122,6 +124,36 @@ const getForecast = async (dom, lat, lon) => {
   saveWeather("lastForecast", fresh);
 
   return fresh;
+};
+
+const extractWeatherForAI = (forecast) => {
+  const now = forecast.list[0];
+
+  return {
+    temp: now.main.temp,
+    feels_like: now.main.feels_like,
+    description: now.weather?.[0]?.description ?? "",
+    wind_speed: now.wind?.speed ?? 0
+  };
+};
+
+const renderAIWeather = async () => {
+  const aiBox = document.getElementById("aiWeatherContent");
+  if (!aiBox || !state.lastForecast) return;
+
+  aiBox.textContent = "Generating AI weather tips…";
+
+  try {
+    const weather = extractWeatherForAI(state.lastForecast);
+    const text = await generateWeatherSummary(weather);
+
+    aiBox.innerHTML = text
+      .replace(/\n/g, "<br>")
+      .replace(/- /g, "• ");
+  } catch (err) {
+    console.error(err);
+    aiBox.textContent = "AI weather summary unavailable.";
+  }
 };
 
 const init = () => {
@@ -239,6 +271,7 @@ const init = () => {
       renderWeatherMain(dom, forecast);
       renderTabs(dom, forecast);
       renderCityMeta(dom, forecast);
+      renderAIWeather();
 
       renderStatus(dom, "Forecast loaded (current location).");
     } catch (err) {
@@ -259,6 +292,7 @@ const init = () => {
     renderWeatherMain(dom, cached.payload);
     renderTabs(dom, cached.payload);
     renderCityMeta(dom, cached.payload);
+    renderAIWeather();
 
     renderStatus(dom, "Loaded last forecast from local storage.");
   });
