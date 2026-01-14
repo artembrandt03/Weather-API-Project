@@ -5,7 +5,18 @@ export const generateWeatherSummary = async (weather) => {
     body: JSON.stringify({ weather })
   });
 
-  const data = await res.json();
-  if (!res.ok) throw new Error(data?.error || "Gemini proxy failed");
-  return data.text ?? "";
+  let data = null;
+  try {
+    data = await res.json();
+  } catch {
+    // ignore json parse errors
+  }
+
+  if (!res.ok) {
+    const msg = data?.error || `Gemini proxy failed (${res.status})`;
+    const hint = data?.hint ? ` ${data.hint}` : "";
+    throw new Error(msg + hint);
+  }
+
+  return data?.text ?? "";
 };

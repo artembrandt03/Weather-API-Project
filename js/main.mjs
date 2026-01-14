@@ -169,8 +169,13 @@ const renderAIWeather = async () => {
     requestAnimationFrame(() => aiBox.classList.add("aiFadeIn"));
   } catch (err) {
     console.error(err);
-    aiBox.innerHTML = `<p class="muted">AI weather summary unavailable.</p>`;
+
+    const msg = err?.message || "AI weather summary unavailable.";
     aiBox.classList.remove("aiFadeIn");
+
+    aiBox.innerHTML = `
+      <p class="muted"><strong>Gemini AI:</strong> ${msg}</p>
+    `;
   }
 };
 
