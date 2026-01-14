@@ -185,6 +185,7 @@
         </section>
 
         <aside class="panel panel--right" aria-label="City Data">
+
           <section class="card">
             <h2 id="cityDataTitle" class="card__title">City data <span class="muted"></span></h2>
 
@@ -194,6 +195,22 @@
               <div class="kv__row"><span class="kv__k">Sunset</span><span id="sunsetVal" class="kv__v">—</span></div>
             </div>
           </section>
+
+          <section class="card" id="aiWeatherCard">
+            <div class="aiHeader">
+              <img
+                class="aiHeader__icon"
+                src="./assets/images/Google_Gemini_icon_2025.svg.png"
+                alt="Google Gemini"
+              />
+              <h2 class="aiHeader__title">Google Gemini AI — Summary & Suggestions</h2>
+            </div>
+
+            <div id="aiWeatherContent" class="aiWeather" aria-live="polite">
+              <p class="muted">Generate tips based on current weather.</p>
+            </div>
+          </section>
+
         </aside>
       </main>
 
@@ -239,6 +256,17 @@
                 rel="noopener noreferrer"
               >
                 Pinterest
+              </a>
+            </li>
+            <li>
+              Gemini logo:
+              <a
+                class="footerLink"
+                href="https://commons.wikimedia.org/wiki/File:Google_Gemini_icon_2025.svg"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Wikimedia Commons
               </a>
             </li>
           </ul>

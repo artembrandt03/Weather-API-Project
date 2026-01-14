@@ -12,6 +12,7 @@ import {
 import { getCurrentCoords } from "./services/geolocation.mjs";
 import { saveWeather, loadWeather, isFresh } from "./services/storage.mjs";
 import { applyDynamicBackground } from "./ui/background.mjs";
+import { generateWeatherSummary } from "./services/gemini.mjs";
 
 const state = {
   suggestions: [],
@@ -96,6 +97,7 @@ const onCitySelect = async (dom) => {
     renderWeatherMain(dom, forecast);
     renderTabs(dom, forecast);
     renderCityMeta(dom, forecast);
+    renderAIWeather();
 
     renderStatus(dom, "Forecast loaded.");
   } catch (err) {
@@ -122,6 +124,90 @@ const getForecast = async (dom, lat, lon) => {
   saveWeather("lastForecast", fresh);
 
   return fresh;
+};
+
+const extractWeatherForAI = (forecast) => {
+  const now = forecast.list[0];
+
+  return {
+    temp: now.main.temp,
+    feels_like: now.main.feels_like,
+    description: now.weather?.[0]?.description ?? "",
+    wind_speed: now.wind?.speed ?? 0
+  };
+};
+
+const renderAIWeather = async () => {
+  const aiBox = document.getElementById("aiWeatherContent");
+  const aiCard = document.getElementById("aiWeatherCard");
+  if (!aiBox || !state.lastForecast) return;
+
+  aiBox.innerHTML = `
+    <div class="aiLoading">
+      <span class="aiSpinner" aria-hidden="true"></span>
+      <span>Generating Gemini tips…</span>
+    </div>
+  `;
+
+  try {
+    const weather = extractWeatherForAI(state.lastForecast);
+    const text = await generateWeatherSummary(weather);
+
+    aiBox.classList.remove("aiFadeIn");
+    aiBox.innerHTML = aiTextToHtml(text);
+
+    // trigger fade
+    requestAnimationFrame(() => aiBox.classList.add("aiFadeIn"));
+  } catch (err) {
+    console.error(err);
+    aiBox.innerHTML = `<p class="muted">AI weather summary unavailable.</p>`;
+    aiBox.classList.remove("aiFadeIn");
+  }
+};
+
+const aiTextToHtml = (text) => {
+  const esc = (s) =>
+    s.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+
+  // Keep it simple: headings + bullets
+  const lines = String(text || "").split("\n").map((l) => l.trim());
+  let html = "";
+  let inList = false;
+
+  const flushList = () => {
+    if (inList) {
+      html += "</ul>";
+      inList = false;
+    }
+  };
+
+  for (const line of lines) {
+    if (!line) continue;
+
+    const isBullet = line.startsWith("- ");
+    const isHeader = /^(summary|activities|bring)\s*:/i.test(line);
+
+    if (isHeader) {
+      flushList();
+      html += `<div style="margin-top:10px;font-weight:900;">${esc(line)}</div>`;
+      continue;
+    }
+
+    if (isBullet) {
+      if (!inList) {
+        html += `<ul style="margin:6px 0 0 18px; padding:0;">`;
+        inList = true;
+      }
+      html += `<li style="margin:6px 0;">${esc(line.slice(2))}</li>`;
+      continue;
+    }
+
+    flushList();
+    html += `<p style="margin:8px 0;">${esc(line)}</p>`;
+  }
+
+  flushList();
+  return html || `<p class="muted">No AI response.</p>`;
 };
 
 const init = () => {
@@ -239,6 +325,7 @@ const init = () => {
       renderWeatherMain(dom, forecast);
       renderTabs(dom, forecast);
       renderCityMeta(dom, forecast);
+      renderAIWeather();
 
       renderStatus(dom, "Forecast loaded (current location).");
     } catch (err) {
@@ -259,6 +346,7 @@ const init = () => {
     renderWeatherMain(dom, cached.payload);
     renderTabs(dom, cached.payload);
     renderCityMeta(dom, cached.payload);
+    renderAIWeather();
 
     renderStatus(dom, "Loaded last forecast from local storage.");
   });

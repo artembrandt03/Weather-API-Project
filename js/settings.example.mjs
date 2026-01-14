@@ -4,6 +4,11 @@ export const OPENWEATHER = {
   FORECAST_URL: "https://api.openweathermap.org/data/2.5/forecast"
 };
 
+export const GEMINI = {
+  API_KEY: "YOUR_GEMINI_KEY",
+  MODEL: "gemini-2.0-flash"
+};
+
 export const LIMITS = {
   CITY_SUGGESTIONS: 3
 };
