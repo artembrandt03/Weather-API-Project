@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "dev": "concurrently \"npm run dev:ui\" \"npm run dev:api\"",
-    "dev:ui": "vite --port 3000",
+    "dev:ui": "npx vite --port 3000",
     "dev:api": "nodemon server/server.mjs"
   },
   "devDependencies": {
