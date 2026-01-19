@@ -2,6 +2,9 @@
 
 🔗 **Live Demo (Render):**  
 https://weather-api-project-ptff.onrender.com/
+> ⚠️ **Desktop Experience Recommended**  
+> This application is currently optimized for desktop and laptop screens.  
+> Mobile responsiveness is partially implemented and will be improved in future iterations.
 
 This repository contains a **Weather Forecast Web Application**, a full-stack project built using **Vite + vanilla JavaScript on the frontend** and **Node.js + Express on the backend**.
 
@@ -176,7 +179,7 @@ npm run dev
 ![main screen](assets/images/project-screen2.png)
 
 ### Video Showcase
-<video controls src="assets/video/project-video-showcase.mp4" title="Title"></video>
+[▶️ Click here to watch the video showcase](assets/video/project-video-showcase.mp4)
 
 ---
 
@@ -187,6 +190,22 @@ The project is deployed as a **single full-stack service** on **Render**:
 https://weather-api-project-ptff.onrender.com/
 
 ---
+
+## 🚀 Future Improvements
+
+Planned enhancements for future versions of this project include:
+
+- **Mobile UI Optimization**  
+  Improve layout scaling, spacing, and component stacking for smaller screens.
+
+- **Responsive Background Handling**  
+  Optimize background images and videos for mobile performance and bandwidth.
+
+- **Extended Weather Data**  
+  Add hourly forecasts, precipitation probability, and weather alerts.
+
+- **Testing & Validation**  
+  Add automated tests for API services and UI logic.
 
 ## Author
 
