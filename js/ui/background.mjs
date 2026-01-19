@@ -1,4 +1,4 @@
-const IMAGES_BASE = "/assets/images/changing-backgrounds";
+const IMAGES_BASE = "/changing-backgrounds";
 
 const SLOT_TO_FILE = {
   night: "night.jpg",
