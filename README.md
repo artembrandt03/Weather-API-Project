@@ -191,7 +191,7 @@ https://weather-api-project-ptff.onrender.com/
 
 ---
 
-## 🚀 Future Improvements
+## Future Improvements
 
 Planned enhancements for future versions of this project include:
 
