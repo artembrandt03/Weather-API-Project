@@ -180,6 +180,7 @@ npm run dev
 
 ### Video Showcase
 [▶️ Click here to watch the video showcase](assets/video/project-video-showcase.mp4)
+
 Or checkout the youtube video here: https://www.youtube.com/watch?v=dwLjwfxsJsA
 
 ---
